@@ -123,14 +123,47 @@ void Stack<T>::display() {
 
 }
 
-public char precedence(char c1, char c2) {
+int precedence(char c) {
 
-	return NULL;
-
+	if (c == '(') {
+		return 0;
+	}
+	if(c == '+' || c == '-') {
+		return 1;
+	}
+	if(c == '*' || c == '/' || c == '%') {
+		return 2;
+	}
+	return 3;
 }
 
-public void toPostFix(S)
+string toPostFix(string expression) {
 
+	char c, op;
+	string postFixExpression = "";
+	Stack<char> ExpressionStack;
+
+	int length = expression.length();
+
+	for(int i = 0; i < length; i++) {
+
+		c = expression.at(i);
+		if(isalnum(c)) {
+
+			postFixExpression.append(1,c);
+
+		}
+		else if (c == '(') {
+			ExpressionStack.push(c);
+		}
+		else if((op = ExpressionStack.pop())!=')') {
+			postFixExpression.append(1,op);
+		}
+	}
+
+	return postFixExpression;
+
+}
 
 int main(int argc, char **argv) {
 
