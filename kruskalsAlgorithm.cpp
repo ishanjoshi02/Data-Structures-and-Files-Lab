@@ -11,6 +11,9 @@ private:
 	GraphNode *graphNode;
 	GraphNode *source;
 public:
+	GraphArc() {
+		nextGraphArc = NULL;
+	}
 	GraphNode*& getGraphNode() {
 		return graphNode;
 	}
@@ -19,7 +22,7 @@ public:
 		this->graphNode = graphNode;
 	}
 
-	GraphArc*& getNextGraphArc() {
+	GraphArc* getNextGraphArc() {
 		return nextGraphArc;
 	}
 
@@ -47,7 +50,6 @@ public:
 		this->source = source;
 		this->graphNode = destination;
 		this->weight = weight;
-		this->nextGraphArc = NULL;
 	}
 
 
@@ -56,23 +58,27 @@ public:
 
 class GraphNode {
 public:
-	const string& getCityName() const {
+	GraphNode() {
+		this->firstGraphArc = NULL;
+
+	}
+	 string getCityName()  {
 		return cityName;
 	}
 
-	void setCityName(const string& cityName) {
+	void setCityName( string cityName) {
 		this->cityName = cityName;
 	}
 
-	 GraphArc*& getFirstGraphArc()  {
+	 GraphArc* getFirstGraphArc()  {
 		return firstGraphArc;
 	}
 
-	void setFirstGraphArc( GraphArc*& firstGraphArc) {
+	void setFirstGraphArc( GraphArc* firstGraphArc) {
 		this->firstGraphArc = firstGraphArc;
 	}
 
-	 GraphNode*& getNextGraphNode()  {
+	 GraphNode* getNextGraphNode()  {
 		return nextGraphNode;
 	}
 
@@ -88,7 +94,7 @@ public:
 		this->processed = processed;
 	}
 
-	 GraphNode*& getSourceGraphNode()  {
+	 GraphNode* getSourceGraphNode()  {
 		return sourceGraphNode;
 	}
 
@@ -106,6 +112,23 @@ private:
 
 class Graph {
 	GraphNode *first;
+	GraphNode *getNode(string Name) {
+		GraphNode *p = first;
+		while (p!=NULL && p->getCityName()!=Name)
+			p = p->getNextGraphNode();
+		if (p == NULL)
+			cout << "No such City Exists";
+		else
+			return p;
+		return NULL;
+	}
+	void insertArc(GraphNode *graphNode,GraphArc *graphArc) {
+		GraphArc *traversal;
+		traversal = graphNode->getFirstGraphArc();
+		while (traversal!=NULL)
+			traversal = traversal->getNextGraphArc();
+		traversal->setNextGraphArc(graphArc);
+	}
 public :
 	Graph() {
 		first = NULL;
@@ -123,46 +146,28 @@ public :
 			first = p;
 		else
 			parentNode->setNextGraphNode(p);
-		cout << "Enter the Name of the City";
+		cout << "Enter Name of City\n";
 		cin >> cityName;
 		p->setCityName(cityName);
-
-		int option;
-		cout << "1. Create Singular Node\n2. Add Adjacent Cities\n";
-		if (p == first) {
-			option = 1;
-		}
-		else {
-			cin >> option;
-		}
-		switch(option) {
-		case 2 :
-			string cityyy;
-			cout << "Enter Adjacent City Name";
-			cin >> cityyy;
-			GraphNode *someNode;
-			someNode = this->first;
-			while (someNode!=NULL || someNode->getCityName()!=cityyy)
-				someNode = someNode->getNextGraphNode();
-			if (someNode == NULL)
-				cout << "No such City Exists";
-			else {
-				int distance;
-				cout << "Enter distance between Cities\n";
-				cin >> distance;
-				GraphArc *graphArc = new GraphArc;
-				graphArc->insert(p,someNode,distance);
-				p->setFirstGraphArc(graphArc);
-				GraphArc *reverse = new GraphArc;
-				reverse->insert(someNode,p,distance);
-				GraphArc *traversal;
-				traversal = someNode->getFirstGraphArc();
-				while (traversal!=NULL)
-					traversal = traversal->getNegrapxtGraphArc();
-				traversal->setNextGraphArc(reverse);
-			}
-			break;
-		}
+		GraphNode *i = NULL;
+		p->setNextGraphNode(i);
+	}
+	void insertArc() {
+		int weight;
+		string source, destination;
+		cout << "Enter Source City followed by destination city\n";
+		cin >> source >> destination;
+		GraphNode *sourceNode, *destinationNode;
+		sourceNode = this->getNode(source);
+		destinationNode = this->getNode(destination);
+		GraphArc *arc1 = new GraphArc;
+		GraphArc *arc2 = new GraphArc;
+		cout << "Enter Weight \n";
+		cin >> weight;
+		arc1->insert(sourceNode,destinationNode,weight);
+		arc2->insert(destinationNode,sourceNode,weight);
+		this->insertArc(sourceNode,arc1);
+		this->insertArc(destinationNode,arc2);
 	}
 	void display() {
 		GraphNode *p = first;
@@ -171,7 +176,7 @@ public :
 			firstArc = p->getFirstGraphArc();
 			if (firstArc != NULL) {
 				cout << p->getCityName() << " -> ";
-				while (firstArc!=NULL) {grap
+				while (firstArc!=NULL) {
 					if (firstArc->getNextGraphArc()!=NULL)
 						cout << firstArc->getGraphNode()->getCityName() << " -> ";
 					else {
@@ -191,7 +196,7 @@ int main(int argc, char **argv) {
 	Graph graph;
 	int option;
 	do {
-		cout << "1. Create Graph\n2. Insert Node\n3. Display Graph\n4. Exit\n";
+		cout << "1. Create Graph\n2. Insert Arc\n3. Display Graph\n4. Exit\n";
 		cin >> option;
 		switch (option) {
 		case 1 : {
@@ -205,7 +210,7 @@ int main(int argc, char **argv) {
 			break;
 		}
 		case 2 : {
-			graph.addNode();
+			graph.insertArc();
 			break;
 		}
 		case 3 :{
