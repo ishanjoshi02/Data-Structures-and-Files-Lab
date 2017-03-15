@@ -12,7 +12,26 @@ class AdjacencyMatrix {
 				return i;
 		return -1;
 	}
+	int* getLowestNode(string country) {
+		int pair[2];
+		int i;
+		int bestDistance;
+		int countryIndex = getCountryIndex(country);
+		bestDistance = array[countryIndex][0];
+		for (i=1;i<MAX;i++)
+			if (bestDistance > array[countryIndex][i])
+				bestDistance = array[countryIndex][i];
+		pair[0] = countryIndex;
+		pair[1] = bestDistance;
+		return pair;
+	}
 public:
+	AdjacencyMatrix() {
+		int i,j;
+		for (i=0;i<MAX;i++)
+			for (j=0;j<MAX;j++)
+				array[i][j] = 0;
+	}
 	void acceptCountries() {
 		cout << "Enter the Names of Countries\n";
 		int i;
@@ -41,6 +60,7 @@ public:
 	}
 	void display() {
 		int i,j;
+		cout << "Countries ";
 		for (i=0;i<MAX;i++)
 			cout << country[i] << "\t";
 		cout << endl;
@@ -64,7 +84,13 @@ public:
 			countryIndex2 = getCountryIndex(country2);
 		}while(countryIndex1 == -1 || countryIndex2 == -1);
 		int costOfLine;
-
+		int *pair;
+		do {
+			pair = getLowestNode(country1);
+			costOfLine += pair[1];
+		}while (pair[0] != countryIndex2) ;
+		cout << "Minimum Telephone Line Cost between " << country1 << " and "
+				<< country2 << " is " << costOfLine << endl;
 	}
 };
 int main(int argc, char **argv) {
@@ -72,7 +98,7 @@ int main(int argc, char **argv) {
 	int option;
 	do {
 		cout << "1. Accept Countries\n" << "2. Insert Values\n" <<
-				"3. Display Matrix\n" << "4. Calculate Minimum Cost" <<
+				"3. Display Matrix\n" << "4. Calculate Minimum Cost\n" <<
 				"5. Exit\n";
 		cin >> option;
 		switch (option) {
@@ -87,6 +113,13 @@ int main(int argc, char **argv) {
 		case 3 : {
 			mAdjacencyMatrix.display();
 			break;
+		}
+		case 4 : {
+			mAdjacencyMatrix.calculateMinimumCost();
+			break;
+		}
+		case 5 : {
+			return 0;
 		}
 		}
 	}while(true);
