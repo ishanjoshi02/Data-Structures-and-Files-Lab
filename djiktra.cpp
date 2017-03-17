@@ -12,6 +12,12 @@ public:
 		this->nextIndex = nextIndex;
 		this->minimumCost = cost;
 	}
+	void setNextIndex(int nextIndex) {
+		this->nextIndex = nextIndex;
+	}
+	void setMinimumCost(int minimumCost) {
+		this->minimumCost = minimumCost;
+	}
 	int getNextIndex() {
 		return this->nextIndex;
 	}
@@ -46,7 +52,8 @@ class AdjacencyMatrix {
 					bestIndex = i;
 				}
 			}
-			nodes[index] = Node(bestIndex, bestDistance);
+			nodes[index].setNextIndex(bestIndex);
+			nodes[index].setMinimumCost(bestDistance);
 		}
 	}
 public:
@@ -108,7 +115,7 @@ public:
 			countryIndex2 = getCountryIndex(country2);
 		}while(countryIndex1 == -1 || countryIndex2 == -1);
 		initNodeArray();
-		int costOfLine;
+		int costOfLine=0;
 		int index=countryIndex1;
 		do {
 			costOfLine += nodes[index].getMinimumCost();
