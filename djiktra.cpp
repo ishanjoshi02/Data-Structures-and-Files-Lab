@@ -2,28 +2,52 @@
 #define MAX 4
 using namespace std;
 
+class Node {
+	int nextIndex, minimumCost;
+public:
+	Node() {
+
+	}
+	Node(int nextIndex, int cost) {
+		this->nextIndex = nextIndex;
+		this->minimumCost = cost;
+	}
+	int getNextIndex() {
+		return this->nextIndex;
+	}
+	int getMinimumCost() {
+		return this->minimumCost;
+	}
+};
+
 class AdjacencyMatrix {
 	int array[MAX][MAX];
 	string country[MAX];
+	Node nodes[MAX];
 	int getCountryIndex(string Country) {
 		int i;
-		for (i=0;i<MAX;i++)
+		for (i=0;i<MAX;i++) {
 			if (country[i] == Country)
 				return i;
+		}
 		return -1;
 	}
-	int* getLowestNode(string country) {
-		int pair[2];
-		int i;
-		int bestDistance;
-		int countryIndex = getCountryIndex(country);
-		bestDistance = array[countryIndex][0];
-		for (i=1;i<MAX;i++)
-			if (bestDistance > array[countryIndex][i])
-				bestDistance = array[countryIndex][i];
-		pair[0] = countryIndex;
-		pair[1] = bestDistance;
-		return pair;
+	void initNodeArray() {
+		int index,i;
+		int bestDistance, bestIndex;
+		int distance;
+		for (index=0; index<MAX;index++) {
+			bestDistance = 9999;
+			bestIndex = 9999;
+			for(i=0;i<MAX;i++) {
+				distance = array[index][i];
+				if(distance<bestDistance && distance!=0) {
+					bestDistance = distance;
+					bestIndex = i;
+				}
+			}
+			nodes[index] = Node(bestIndex, bestDistance);
+		}
 	}
 public:
 	AdjacencyMatrix() {
@@ -83,12 +107,13 @@ public:
 			countryIndex1 = getCountryIndex(country1);
 			countryIndex2 = getCountryIndex(country2);
 		}while(countryIndex1 == -1 || countryIndex2 == -1);
+		initNodeArray();
 		int costOfLine;
-		int *pair;
+		int index=countryIndex1;
 		do {
-			pair = getLowestNode(country1);
-			costOfLine += pair[1];
-		}while (pair[0] != countryIndex2) ;
+			costOfLine += nodes[index].getMinimumCost();
+			index = nodes[index].getNextIndex();
+		}while(index!=countryIndex2);
 		cout << "Minimum Telephone Line Cost between " << country1 << " and "
 				<< country2 << " is " << costOfLine << endl;
 	}
