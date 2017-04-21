@@ -85,7 +85,7 @@ public :
         root = nodes.pop();
     }
     void toInFix() {
-        inFix(root);
+        inFix(root);//there is a private function that does the same. This is just because the root is a private data member
     }
     void toPreFix() {
         preFix(root);
