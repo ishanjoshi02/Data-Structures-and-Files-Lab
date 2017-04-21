@@ -1,9 +1,3 @@
-/*
-Name-Rishabh Gandhewar
-Roll No-3154028
-Class- SE-IT-A
-TITLE- Binary Tree
-*/
 #include<iostream>		//Header Files
 #include<stdlib.h>
 #include<math.h>
