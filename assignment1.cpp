@@ -247,120 +247,24 @@ float postFixEvaluation(string expression) {
 	return integers.pop();
 }
 
-int preFixEvaluation(string expression) {
-
-}
-
 int main(int argc, char **argv) {
-
-	/*Stack<int> IntegerStack;
-	Stack<string> StringStack;
-
-	int option;
-
+	int choice;
+	string Expression;
 	do {
-
-		cout << "1. Integer Operations\n2. String Operations\n3. Exit\n";
-		cin >> option;
-		switch(option) {
-		case 1 : {
-			cout << "1. Display Stack\n"
-					"2. Push Element\n"
-					"3. Pop Element\n"
-					"4. Get Top Position Value\n6. Exit\n";
-			cin >> option ;
-			switch(option) {
-			case 1 : {
-				IntegerStack.display();
-				break;
+		cout << "1. Convert Expression from Infix to Postfix" << endl
+					<< "2. Convert Expression from Infix to Prefix" << endl
+					<< "3. Convert Expression from Postfix to Infix" << endl
+					<< "4. Exit" << endl;
+		cin >> choice;
+		switch (choice) {
+			cout << "Enter the Expression" << endl;
+			cin >> Expression
+			case 1: {
+				cout << "The Postfix Expression is " << endl  << toPostFix(Expression) << endl;
 			}
-			case 2 : {
-				int element;
-				cout << "Enter Integer\n";
-				cin >> element;
-
-				IntegerStack.push(element);
-
-				break;
-			}
-			case 3 : {
-				string answer;
-				do {
-					cout << IntegerStack.pop() << endl;
-					cout << "Do you want to Pop another\n";
-					cin >> answer;
-				}while(answer == "yes" || answer == "y");
-				break;
-			}
-			case 4 : {
-				cout << IntegerStack.stackTop();
-				break;
-			}
-			}
-			break;
-		}
-		case 2 : {
-			cout << "1. Display Stack\n"
-					"2. Push Element\n"
-					"3. Pop Element\n"
-					"4. Get Top Position Value\n6. Exit\n";
-			cin >> option ;
-			switch(option) {
-			case 1 : {
-
-
-				StringStack.display();
-				break;
-			}
-			case 2 : {
-				string data;
-				cout << "Enter String\n";
-				cin >> data;
-
-				StringStack.push(data);
-				break;
-			}
-			case 3 : {
-				string answer;
-				do {
-					cout << StringStack.pop() << endl;
-					cout << "Do you want to Pop another\n";
-					cin >> answer;
-				}while(answer == "yes" || answer == "y");
-				break;
-			}
-			case 4 : {
-				cout << StringStack.stackTop() << endl;
-				break;
-			}
-			}
-			break;
-
-			case 3 : {
-				return 0;
+			case 2: {
+				
 			}
 		}
-		}
-	} while (true);*/
-
-	//Infix to Postfix
-	/*string Expression;
-	cout << "Enter an Expression\n";
-	cin >> Expression;
-	cout << toPostFix(Expression);*/
-
-	//Infix to Prefix
-	/*string Expression;
-			cout << "Enter an Expression\n";
-			cin >> Expression;
-			cout << reverseString(toPostFix());*/
-//PostFix Evaluation
-	/*string Expression;
-	cout << "Enter an Expression\n";
-	cin >> Expression;
-	cout << postFixEvaluation(toPostFix(Expression)) << endl;
-*/
+	} while(true);
 }
-
-
-
